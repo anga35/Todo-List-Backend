@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'account',
     'api',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'task'
 ]
 
 MIDDLEWARE = [

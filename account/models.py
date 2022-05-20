@@ -1,4 +1,5 @@
 
+from tkinter.tix import Tree
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin,BaseUserManager
 # Create your models here.
@@ -32,6 +33,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser,PermissionsMixin):
     email=models.CharField(max_length=200,unique=True)
     fullname=models.CharField(max_length=200)
+    
+    
     image=models.ImageField(upload_to='profile_pictures',null=True,blank=True,default=None)
     is_active=models.BooleanField()
     is_staff=models.BooleanField()

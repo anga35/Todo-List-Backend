@@ -13,19 +13,14 @@ class CreateUserView(APIView):
     def post(self,request):
         data=request.data
         serializer=CreateUserSerializer(data=data)
-
         if not serializer.is_valid():
             return Response(status=400)
-
-
         else:
             data=serializer.save()
             return Response(data=data,status=200)
 
 
 class LoginUserView(APIView):
-
-
     def post(self,request):
         data=request.data
         user=authenticate(username=data['email'],password=data['password'])
@@ -33,10 +28,11 @@ class LoginUserView(APIView):
         if not user:
             raise Http404
         serializer=UserSerializer(user,data=data)
-
         serializer.is_valid(raise_exception=True)
         token=get_object_or_404(Token,user=user)
         return Response({'token':token.key})
+
+        
 
 
 
