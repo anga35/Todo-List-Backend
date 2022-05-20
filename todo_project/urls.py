@@ -16,9 +16,10 @@ Including another URLconf
 from msilib.schema import CreateFolder
 from django.contrib import admin
 from django.urls import path
-from api.views import CreateUserView
+from api.views import CreateUserView, LoginUserView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('create/',CreateUserView.as_view(),name='create-user')
+    path('create/',CreateUserView.as_view(),name='create-user'),
+    path('login/',LoginUserView.as_view(),name='login-user'),
 ]
