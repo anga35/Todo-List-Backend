@@ -27,4 +27,3 @@ class TestEndpoints(TestCase):
        }
         response=self.client.post(reverse('login-user'),data=data)
         print(response.json())
-
