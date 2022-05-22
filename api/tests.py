@@ -1,5 +1,11 @@
+from distutils.command.upload import upload
+from http import client
 from django.test import TestCase
 from django.urls import reverse
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import get_user_model
+from django.conf import settings
+User=get_user_model()
 # Create your tests here.
 class TestEndpoints(TestCase):
 
@@ -10,6 +16,8 @@ class TestEndpoints(TestCase):
         'password1':'test12345',
         'fullname':'Test David'}
         response=self.client.post(reverse('create-user'),data=data)
+        self.user=User.objects.get(email='test@gmail.com')
+        self.token=Token.objects.get(user=self.user)
         print(response)
 
     def test_create_user(self):
@@ -27,3 +35,13 @@ class TestEndpoints(TestCase):
        }
         response=self.client.post(reverse('login-user'),data=data)
         print(response.json())
+
+
+    def test_profile_pic(self):
+        pic_dir=getattr(settings,'MY_IMG',None)
+        picture=open(pic_dir,'rb')
+        upload={'profile_pic':picture}
+        response=self.client.post(reverse('profile-pic'),data=upload,HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        print(response)
+
+

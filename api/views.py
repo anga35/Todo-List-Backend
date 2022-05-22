@@ -6,6 +6,9 @@ from api.serializers import CreateUserSerializer, UserSerializer
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.parsers import MultiPartParser,FormParser
 # Create your views here.
 
 
@@ -36,4 +39,13 @@ class LoginUserView(APIView):
 
 
 
-            
+class UpdateProfilePictureView(APIView):
+    authentication_classes=[TokenAuthentication]
+    permission_classes=[IsAuthenticated]
+    parser_classes=[MultiPartParser,FormParser]
+    def post(self,request):
+        picture=request.data['profile_pic']
+        user=request.user
+        user.profile_picture=picture
+        print(user.profile_picture.url)
+        return Response("Done")

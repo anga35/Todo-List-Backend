@@ -16,12 +16,13 @@ Including another URLconf
 from msilib.schema import CreateFolder
 from django.contrib import admin
 from django.urls import path,include
-from api.views import CreateUserView, LoginUserView
+from api.views import CreateUserView, LoginUserView,UpdateProfilePictureView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('create/',CreateUserView.as_view(),name='create-user'),
     path('login/',LoginUserView.as_view(),name='login-user'),
-    path('task/',include('task.urls'))
+    path('task/',include('task.urls')),
+    path('profile_pic/',UpdateProfilePictureView.as_view(),name='profile-pic')
 
 ]

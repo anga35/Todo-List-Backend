@@ -35,7 +35,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     fullname=models.CharField(max_length=200)
     
     
-    image=models.ImageField(upload_to='profile_pictures',null=True,blank=True,default=None)
+    profile_picture=models.ImageField(upload_to='profile_pictures',null=True,blank=True,default=None)
     is_active=models.BooleanField()
     is_staff=models.BooleanField()
     
