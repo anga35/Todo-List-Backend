@@ -3,5 +3,5 @@ from .views import TaskListView,TaskDoneView
 urlpatterns = [
     path('all/',TaskListView.as_view(),name='task-all'),
     path('create/',TaskListView.as_view(),name='task-create'),
-    path('task_done/',TaskDoneView.as_view(),name='task-done')
+    path('task-done/',TaskDoneView.as_view(),name='task-done')
 ]

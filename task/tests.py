@@ -35,6 +35,7 @@ class TaskTest(TestCase):
      
         task=Task.objects.create(name="Do this",user=self.user)
         response=self.client.get(reverse('task-all'),HTTP_AUTHORIZATION=f'Token {self.token.key}')
+        print(response.json())
         response_name=response.json()[0]['name']
         self.assertEqual(response_name,'Do this')
 
@@ -47,7 +48,8 @@ class TaskTest(TestCase):
 
     def test_task_done(self):
         self.test_createTask()
-        task_items={'first':1}
+        self.test_createTask()
+        task_items={'first':1,'second':2}
         response=self.client.post(reverse('task-done'),HTTP_AUTHORIZATION=f'Token {self.token.key}',data=task_items)
         print(response.json())
 

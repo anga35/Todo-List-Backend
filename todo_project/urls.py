@@ -24,7 +24,7 @@ urlpatterns = [
     path('create/',CreateUserView.as_view(),name='create-user'),
     path('login/',LoginUserView.as_view(),name='login-user'),
     path('task/',include('task.urls')),
-    path('profile_pic/',UpdateProfilePictureView.as_view(),name='profile-pic'),
-    path('get_token/',TokenGetView.as_view(),name='token-get'),
+    path('user/profile-pic/',UpdateProfilePictureView.as_view(),name='profile-pic'),
+    path('user/get-token/',TokenGetView.as_view(),name='token-get'),
  
 ]
