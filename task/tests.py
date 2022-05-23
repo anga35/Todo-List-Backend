@@ -24,8 +24,11 @@ class TaskTest(TestCase):
 
     def test_createTask(self):
         user=User.objects.get(email='test@gmail.com')
+        print(user.email)
         task=Task.objects.create(name="Do this",user=user)
         task_name=user.tasks.all().first().name
+        self.task_pk=user.tasks.all().first().pk
+        
         self.assertEqual(task_name,'Do this')
 
     def test_get(self):
@@ -40,3 +43,12 @@ class TaskTest(TestCase):
         response=self.client.post(reverse('task-create'),HTTP_AUTHORIZATION=f'Token {self.token.key}',data=data)
         print(self.user.tasks.all())
         print(response.json())
+
+
+    def test_task_done(self):
+        self.test_createTask()
+        task_items={'first':1}
+        response=self.client.post(reverse('task-done'),HTTP_AUTHORIZATION=f'Token {self.token.key}',data=task_items)
+        print(response.json())
+
+        

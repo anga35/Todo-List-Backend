@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
+import requests
 from rest_framework.views import APIView
 from api import serializers
 from api.serializers import CreateUserSerializer, UserSerializer
@@ -23,6 +24,23 @@ class CreateUserView(APIView):
             return Response(data=data,status=200)
 
 
+class TokenGetView(APIView):
+    def post(self,request):
+        data=request.data
+        email=data['email']
+        password=data['password']
+        print(email)
+        user=authenticate(username=email,password=password)
+        if user:
+
+            token=Token.objects.get(user=user)
+            return Response({'token':token.key})
+
+        else :
+            return Response({"Invalid Login"})
+
+
+
 class LoginUserView(APIView):
     def post(self,request):
         data=request.data
@@ -44,8 +62,9 @@ class UpdateProfilePictureView(APIView):
     permission_classes=[IsAuthenticated]
     parser_classes=[MultiPartParser,FormParser]
     def post(self,request):
-        picture=request.data['profile_pic']
+        picture=request.FILES['profile_pic']
         user=request.user
         user.profile_picture=picture
         print(user.profile_picture.url)
+        user.save()
         return Response("Done")

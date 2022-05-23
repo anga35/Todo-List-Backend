@@ -10,4 +10,3 @@ class Task(models.Model):
     create_date=models.DateTimeField(auto_now_add=True)
     deadline=models.DateTimeField(null=True,blank=True)
     is_done=models.BooleanField(default=False)
-    

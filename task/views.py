@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework.generics import ListCreateAPIView
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .serializers import TaskSerializer
+from .models import Task
+from rest_framework.response import Response
 # Create your views here.
 class TaskListView(ListCreateAPIView):
     authentication_classes=[TokenAuthentication]
@@ -22,6 +25,20 @@ class TaskListView(ListCreateAPIView):
 
         serializer.save(user=user)
 
+
+class TaskDoneView(APIView):
+    authentication_classes=[TokenAuthentication]
+    permission_classes=[IsAuthenticated] 
+    def post(self,request):
+        data=request.data
+        if data:
+            for value in data.values():
+                task=get_object_or_404(Task,pk=value)
+                task.is_done=True
+                task.save()
+                return Response(task.is_done,status=200)
+        else:
+            return Response(status=400)
 
 
 
