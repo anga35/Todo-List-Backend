@@ -49,10 +49,17 @@ class TaskSerializer(serializers.ModelSerializer):
                 super().validate(self.to_internal_value(data))
 
             for data in self.validated_data:
-
+                
                 name=data['name']
                 request=self.context['request']
                 task=Task(name=name,user=request.user)
+                if 'deadline' in data.keys():
+                    print("INSERTING DEADLINE")
+                    task.deadline=data['deadline']
+
+
+                
+                
                 task.save()
                 
                 self.instance=task
