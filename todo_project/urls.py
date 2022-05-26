@@ -17,7 +17,7 @@ from msilib.schema import CreateFolder
 from django.contrib import admin
 from django.urls import path,include
 from api.views import CreateUserView, LoginUserView,UpdateProfilePictureView,TokenGetView
-
+from task.views import testo
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +26,6 @@ urlpatterns = [
     path('task/',include('task.urls')),
     path('user/profile-pic/',UpdateProfilePictureView.as_view(),name='profile-pic'),
     path('user/get-token/',TokenGetView.as_view(),name='token-get'),
+
  
 ]

@@ -68,3 +68,5 @@ class UpdateProfilePictureView(APIView):
         print(user.profile_picture.url)
         user.save()
         return Response("Done")
+
+

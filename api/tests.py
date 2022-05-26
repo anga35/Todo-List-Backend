@@ -23,10 +23,10 @@ class TestEndpoints(TestCase):
     def test_create_user(self):
         data={'email':'dayodele89@gmail.com',
         'password':'david12345',
-        'password1':'david12345',
+        'password1':'david123f45',
         'fullname':'Ayodele David'}
         print(reverse('create-user'))
-        response=self.client.post(reverse('create-user'),data)
+        response=self.client.post(reverse('create-user'),data,content_type='application/json')
         print(response)
 
     def test_login_user(self):

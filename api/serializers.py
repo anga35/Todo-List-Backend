@@ -38,7 +38,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
 
         if( attrs['password']!= attrs['password1']):
-            raise ValidationError("Passwords not corresponding")
+            raise serializers.ValidationError("Wrong password")
 
 
         return super().validate(attrs)

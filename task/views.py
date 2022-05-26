@@ -1,3 +1,5 @@
+import json
+from mimetypes import init
 from django.shortcuts import get_object_or_404, render
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.views import APIView
@@ -6,6 +8,7 @@ from rest_framework.authentication import TokenAuthentication
 from .serializers import TaskSerializer
 from .models import Task
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 # Create your views here.
 class TaskListView(ListCreateAPIView):
     authentication_classes=[TokenAuthentication]
@@ -44,4 +47,9 @@ class TaskDoneView(APIView):
 
 
 
+@api_view(['POST'])
+def testo(request):
+
+    data=request.data
+    return Response(data)
 

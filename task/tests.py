@@ -1,5 +1,6 @@
 import email
 import imp
+import json
 from rest_framework.authtoken.models import Token
 from django.test import TestCase
 from django.urls import reverse
@@ -40,8 +41,8 @@ class TaskTest(TestCase):
         self.assertEqual(response_name,'Do this')
 
     def test_create(self):
-        data={'name':'Jump out the house'}
-        response=self.client.post(reverse('task-create'),HTTP_AUTHORIZATION=f'Token {self.token.key}',data=data)
+        data=[{'name':'Jump out the house'},{'name':'Jump out tha house'}]
+        response=self.client.post(reverse('task-create'),HTTP_AUTHORIZATION=f'Token {self.token.key}',data=data,content_type='application/json')
         print(self.user.tasks.all())
         print(response.json())
 
@@ -51,6 +52,12 @@ class TaskTest(TestCase):
         self.test_createTask()
         task_items={'first':1,'second':2}
         response=self.client.post(reverse('task-done'),HTTP_AUTHORIZATION=f'Token {self.token.key}',data=task_items)
+        print(response.json())
+
+
+    def test_null(self):
+        data=[{'items':['a','b','v']}]
+        response=self.client.post(reverse('testo'),data=data,content_type='application/json')
         print(response.json())
 
         
