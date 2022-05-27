@@ -16,7 +16,7 @@ Including another URLconf
 from msilib.schema import CreateFolder
 from django.contrib import admin
 from django.urls import path,include
-from api.views import CreateUserView, LoginUserView,UpdateProfilePictureView,TokenGetView
+from api.views import CreateUserView, LoginUserView,UpdateProfilePictureView,TokenGetView,get_user_data
 from task.views import testo
 
 urlpatterns = [
@@ -26,6 +26,7 @@ urlpatterns = [
     path('task/',include('task.urls')),
     path('user/profile-pic/',UpdateProfilePictureView.as_view(),name='profile-pic'),
     path('user/get-token/',TokenGetView.as_view(),name='token-get'),
+    path('user/get-user/',get_user_data,name='get-user')
 
  
 ]

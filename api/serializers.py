@@ -24,16 +24,15 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=User
-        fields=['email','fullname','profile_picture','password']
+        fields=['email','fullname','profile_picture','password','tasks']
 
 
 class CreateUserSerializer(serializers.ModelSerializer):   
-    password1=serializers.CharField(required=True)
+    password1=serializers.CharField(required=True,write_only=True)
 
     class Meta:
         model=User
         fields=['email','fullname','profile_picture','password','password1']
-
 
     def validate(self, attrs):
 
@@ -52,6 +51,9 @@ class CreateUserSerializer(serializers.ModelSerializer):
         fullname=data['fullname']
         user=User.objects.create_user(email=email,password=password,fullname=fullname)
         token=Token.objects.get_or_create(user=user)
-
+        del data['password1']
+        del data['password']
+        if user.profile_picture:
+            data['profile_picture']=user.profile_picture.url
         return data
 

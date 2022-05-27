@@ -23,19 +23,24 @@ class TestEndpoints(TestCase):
     def test_create_user(self):
         data={'email':'dayodele89@gmail.com',
         'password':'david12345',
-        'password1':'david123f45',
+        'password1':'david12345',
         'fullname':'Ayodele David'}
         print(reverse('create-user'))
-        response=self.client.post(reverse('create-user'),data,content_type='application/json')
-        print(response)
+        response=self.client.post(reverse('create-user'),data=data,content_type='application/json')
+        print(response.json())
 
     def test_login_user(self):
         data={'email':'test@gmail.com',
         'password':'test12345'
        }
         response=self.client.post(reverse('login-user'),data=data)
-        print(response.json())
+        return response.json()
 
+    def test_get_user_data(self):
+        
+        response=self.test_login_user()['token']
+        response=self.client.get(reverse('get-user'),HTTP_AUTHORIZATION=response)
+        print(response.json())
 
     def test_profile_pic(self):
         pic_dir=getattr(settings,'MY_IMG',None)

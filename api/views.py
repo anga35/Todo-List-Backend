@@ -10,6 +10,12 @@ from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.parsers import MultiPartParser,FormParser
+from rest_framework.decorators import api_view
+from django.contrib.auth import get_user_model
+
+
+User=get_user_model()
+
 # Create your views here.
 
 
@@ -69,4 +75,13 @@ class UpdateProfilePictureView(APIView):
         user.save()
         return Response("Done")
 
+@api_view(['GET'])
+def get_user_data(request):
+    token=request.META['HTTP_AUTHORIZATION']
+    user=Token.objects.get(key=token).user
+    serializer=UserSerializer(user,context={'request':request})
 
+    data=serializer.data
+    del data['password']
+
+    return Response(data)
