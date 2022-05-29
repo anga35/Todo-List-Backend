@@ -20,11 +20,14 @@ class UserSerializer(serializers.ModelSerializer):
     email=serializers.EmailField()
     password=serializers.CharField(required=False)
     fullname=serializers.CharField(required=False)
-
+    profilePicture=serializers.CharField(allow_null=True,allow_blank=True,required=False)
 
     class Meta:
         model=User
-        fields=['email','fullname','profile_picture','password','tasks']
+        fields=['email','fullname','profilePicture','password','tasks']
+
+    def get_profilePicture(self,obj):
+        return obj.email
 
 
 class CreateUserSerializer(serializers.ModelSerializer):   

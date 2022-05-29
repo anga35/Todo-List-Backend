@@ -33,7 +33,7 @@ class TaskTest(TestCase):
         self.assertEqual(task_name,'Do this')
 
     def test_get(self):
-     
+        Task.objects.create(name="Do this",user=self.user)
         task=Task.objects.create(name="Do this",user=self.user)
         response=self.client.get(reverse('task-all'),HTTP_AUTHORIZATION=f'Token {self.token.key}')
         print(response.json())

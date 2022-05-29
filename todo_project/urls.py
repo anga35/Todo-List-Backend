@@ -21,12 +21,9 @@ from task.views import testo
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('create/',CreateUserView.as_view(),name='create-user'),
-    path('login/',LoginUserView.as_view(),name='login-user'),
+
     path('task/',include('task.urls')),
-    path('user/profile-pic/',UpdateProfilePictureView.as_view(),name='profile-pic'),
-    path('user/get-token/',TokenGetView.as_view(),name='token-get'),
-    path('user/get-user/',get_user_data,name='get-user')
+    path('user/',include('account.urls'))
 
  
 ]

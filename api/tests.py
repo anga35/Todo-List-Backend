@@ -38,8 +38,9 @@ class TestEndpoints(TestCase):
 
     def test_get_user_data(self):
         
-        response=self.test_login_user()['token']
-        response=self.client.get(reverse('get-user'),HTTP_AUTHORIZATION=response)
+        token=self.test_login_user()['token']
+        auth_header=f'Token {token}'
+        response=self.client.get(reverse('get-user'),HTTP_AUTHORIZATION=auth_header)
         print(response.json())
 
     def test_profile_pic(self):
@@ -47,6 +48,6 @@ class TestEndpoints(TestCase):
         picture=open(pic_dir,'rb')
         upload={'profile_pic':picture}
         response=self.client.post(reverse('profile-pic'),data=upload,HTTP_AUTHORIZATION=f'Token {self.token.key}')
-        print(response)
+        print(response.json())
 
 
