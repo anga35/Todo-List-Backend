@@ -5,6 +5,8 @@ from django.urls import reverse
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
 from django.conf import settings
+
+from task.models import Task
 User=get_user_model()
 # Create your tests here.
 class TestEndpoints(TestCase):
@@ -18,6 +20,7 @@ class TestEndpoints(TestCase):
         response=self.client.post(reverse('create-user'),data=data)
         self.user=User.objects.get(email='test@gmail.com')
         self.token=Token.objects.get(user=self.user)
+        Task.objects.create(user=self.user,name="NIGGA")
         print(response)
 
     def test_create_user(self):
@@ -33,14 +36,14 @@ class TestEndpoints(TestCase):
         data={'email':'test@gmail.com',
         'password':'test12345'
        }
-        response=self.client.post(reverse('login-user'),data=data)
-        return response.json()
+        response=self.client.post(reverse('login-user'),data=data,content_type='application/json')
+        return(response.json()) 
 
     def test_get_user_data(self):
         
         token=self.test_login_user()['token']
         auth_header=f'Token {token}'
-        response=self.client.get(reverse('get-user'),HTTP_AUTHORIZATION=auth_header)
+        response=self.client.get(reverse('get-user'),HTTP_AUTHORIZATION=auth_header,content_type='application/json')
         print(response.json())
 
     def test_profile_pic(self):

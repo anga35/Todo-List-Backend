@@ -50,8 +50,8 @@ class TaskTest(TestCase):
     def test_task_done(self):
         self.test_createTask()
         self.test_createTask()
-        task_items={'first':1,'second':2}
-        response=self.client.post(reverse('task-done'),HTTP_AUTHORIZATION=f'Token {self.token.key}',data=task_items)
+        task_items={'pk':[1,2]}
+        response=self.client.post(reverse('task-done'),HTTP_AUTHORIZATION=f'Token {self.token.key}',data=task_items,content_type='application/json')
         print(response.json())
 
 

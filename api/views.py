@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, QueryDict
 from django.shortcuts import get_object_or_404, render
 import requests
 from rest_framework.views import APIView
@@ -21,9 +21,12 @@ User=get_user_model()
 
 class CreateUserView(APIView):
     def post(self,request):
+    
         data=request.data
+        print(data)
         serializer=CreateUserSerializer(data=data)
         if not serializer.is_valid():
+            
             return Response(status=400)
         else:
             data=serializer.save()
@@ -50,12 +53,17 @@ class TokenGetView(APIView):
 class LoginUserView(APIView):
     def post(self,request):
         data=request.data
+        print(data)
+   
+        
         user=authenticate(username=data['email'],password=data['password'])
-
+        print(user.email)
         if not user:
+            print("Not User")
             raise Http404
         serializer=UserSerializer(user,data=data)
         serializer.is_valid(raise_exception=True)
+        print("User")
         token=get_object_or_404(Token,user=user)
         return Response({'token':token.key})
 
@@ -71,7 +79,7 @@ class UpdateProfilePictureView(APIView):
         picture=request.FILES['profile_pic']
         user=request.user
         user.profile_picture=picture
-        print(user.profile_picture.url)
+        print(str(user.profile_picture.url))
         user.save()
         return Response({'picture':user.profile_picture.url})
 
@@ -84,6 +92,8 @@ def get_user_data(request):
     serializer=UserSerializer(user,context={'request':request})
 
     data=serializer.data
+
+
     del data['password']
 
     return Response(data)

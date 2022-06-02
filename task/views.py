@@ -34,12 +34,14 @@ class TaskDoneView(APIView):
     permission_classes=[IsAuthenticated] 
     def post(self,request):
         data=request.data
+        print(data['pk'])
         stash={}
+        stash['pk']=[]
         if data:
-            for value in data.values():
+            for value in data['pk']:
                 task=get_object_or_404(Task,pk=value)
                 task.is_done=True
-                stash[str(value)]=task.is_done
+                stash['pk'].append(task.is_done)
                 task.save()
             return Response(stash,status=200)
         else:

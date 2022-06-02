@@ -4,6 +4,7 @@ from rest_framework.authtoken.models import Token
 from django.forms import ValidationError
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from task.serializers import TaskSerializer
 
 
 User=get_user_model()
@@ -20,14 +21,27 @@ class UserSerializer(serializers.ModelSerializer):
     email=serializers.EmailField()
     password=serializers.CharField(required=False)
     fullname=serializers.CharField(required=False)
-    profilePicture=serializers.CharField(allow_null=True,allow_blank=True,required=False)
+    tasks=serializers.ListSerializer(child=TaskSerializer(),required=False,allow_empty=True)
+    profilePicture=serializers.SerializerMethodField(allow_null=True,required=False)
 
     class Meta:
         model=User
         fields=['email','fullname','profilePicture','password','tasks']
+    
+        '''
+            METHOD FIELD TO GET LIST OF TASKS
+             def get_tasks(self,obj):
+            tasks=Task.objects.filter(user=obj,is_done=False)
+            serializer=TaskSerializer(tasks,many=True)
+            return serializer.data
 
+        '''
+    
     def get_profilePicture(self,obj):
-        return obj.email
+        if(obj.profile_picture):
+            print(obj.profile_picture.url)
+            return obj.profile_picture.url
+        return ""
 
 
 class CreateUserSerializer(serializers.ModelSerializer):   
