@@ -41,7 +41,7 @@ class TaskTest(TestCase):
         self.assertEqual(response_name,'Do this')
 
     def test_create(self):
-        data=[{'name':'Jump out the house'},{'name':'Jump out tha house','deadline':'2022-05-26T20:45:45'}]
+        data=[{'name':'Jump out the house','deadline':'2022-05-26T20:45:45'},{'name':'Jump out tha house','deadline':'2022-05-26T20:45:45'}]
         response=self.client.post(reverse('task-create'),HTTP_AUTHORIZATION=f'Token {self.token.key}',data=data,content_type='application/json')
         print(self.user.tasks.all())
         print(response.json())

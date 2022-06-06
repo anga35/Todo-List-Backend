@@ -5,7 +5,9 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
-from .serializers import TaskSerializer
+
+from api.serializers import UserSerializer
+from .serializers import TaskCreateSerializer, TaskSerializer
 from .models import Task
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -47,6 +49,24 @@ class TaskDoneView(APIView):
         else:
             return Response(status=400)
 
+
+class TaskCreateListView(APIView):
+    authentication_classes=[TokenAuthentication]
+    permission_classes=[IsAuthenticated]
+
+    def post(self,request):
+        list_data=request.data
+        serializer=TaskCreateSerializer(data=list_data,many=True)
+        serializer.is_valid(raise_exception=True)
+        for data in list_data:
+            name=data['name']
+            task=Task(name=name,user=request.user,deadline=data['deadline'])
+
+            task.save()
+
+        user=UserSerializer(request.user).data
+        del user['password']
+        return Response(user)
 
 
 @api_view(['POST'])
