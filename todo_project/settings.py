@@ -16,7 +16,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR=Path(BASE_DIR,'static')
-MY_IMG=Path(BASE_DIR,'temp.jpg')
+#MY_IMG=Path(BASE_DIR,'temp.jpg')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
