@@ -57,10 +57,11 @@ class LoginUserView(APIView):
    
         
         user=authenticate(username=data['email'],password=data['password'])
-        print(user.email)
+        
         if not user:
             print("Not User")
             raise Http404
+        print(user.email)
         serializer=UserSerializer(user,data=data)
         serializer.is_valid(raise_exception=True)
         print("User")
