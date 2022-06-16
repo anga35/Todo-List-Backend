@@ -19,12 +19,14 @@ from django.urls import path,include
 
 from django.conf.urls.static import static
 from django.conf import settings
+from api.views import GetResetPasswordURLView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('task/',include('task.urls')),
-    path('user/',include('account.urls'))
+    path('user/',include('account.urls')),
+    path('test/',GetResetPasswordURLView.as_view())
 
  
 ]+static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
