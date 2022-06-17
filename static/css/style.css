@@ -1,0 +1,24 @@
+h1{
+text-align: center;
+font-family: Poppins-bold;
+
+}
+h3{
+    font-family: Poppins-bold;
+}
+
+a{
+font-family: Poppins-regular;
+}
+
+
+@font-face {
+    font-family: Poppins-bold;
+    src: url("/static/Poppins-Bold.ttf");
+}
+
+@font-face {
+    font-family: Poppins-regular;
+    src: url("/static/Poppins-Regular.ttf");
+}
+
