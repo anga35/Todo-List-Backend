@@ -39,10 +39,24 @@ class User(AbstractBaseUser,PermissionsMixin):
     
     
     profile_picture=models.ImageField(upload_to=user_profile_dir,null=True,blank=True,default=None)
+
+    ot_token=models.CharField(max_length=60,blank=True,null=True,default=None)
     is_active=models.BooleanField()
     is_staff=models.BooleanField()
+
     
 
+
+
+    def ot_token_set_expire(self):
+        self.ot_token=None
+
+        self.save()
+
+    
     USERNAME_FIELD='email'
     REQUIRED_FIELDS=['fullname']
     objects=UserManager()
+
+
+

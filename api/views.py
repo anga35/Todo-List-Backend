@@ -1,13 +1,13 @@
-from ast import Pass
+
 from base64 import urlsafe_b64encode
-from datetime import datetime, timedelta
+
 from django.conf import settings
-from django.http import Http404, QueryDict
+from django.http import Http404
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 import requests
 from rest_framework.views import APIView
-from api import serializers
-from api import jwt_reset
+
 from api.jwt_reset import JWTReset
 from api.serializers import CreateUserSerializer, UserSerializer
 from rest_framework.response import Response
@@ -18,14 +18,16 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.parsers import MultiPartParser,FormParser
 from rest_framework.decorators import api_view,authentication_classes,permission_classes
 from django.contrib.auth import get_user_model
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.mail import EmailMultiAlternatives
 import jwt
+from account.custom_password_reset import CustomPasswordReset
 
 User=get_user_model()
 jwt_reset=JWTReset()
+
 
 # Create your views here.
 
@@ -115,11 +117,19 @@ def get_user_data(request):
 class GetResetPasswordURLView(APIView):
     authentication_classes=[TokenAuthentication]
     permission_classes=[IsAuthenticated]
+
+    def generate_url(self,uid,token):
+        return reverse('get-reset-password-url',kwargs={'uidb64':uid,'token':token})
+
     def get(self,request,*args,**kwargs):
-        # uid=urlsafe_base64_encode(force_bytes(request.user.pk))
-        token=jwt_reset.encode_reset_token(user_id=request.user.pk)
-        print(token)
-        print(jwt_reset.decode_reset_token(reset_token=token))
+        
+
+        user=request.user
+        password_reset=CustomPasswordReset()
+        token=password_reset.make_token(user)
+        uid=urlsafe_base64_encode(force_bytes(request.user.pk))
+        print(self.generate_url(uid,token))
+
         return Response(status=200)
         # subject=f'Password recovery for {request.user.email}'
     
