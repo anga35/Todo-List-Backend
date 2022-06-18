@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +15,7 @@
 <h3>Password Reset</h3>
 
 
-<a href="{% url 'get-reset-password-url' uidb64=uid token=token %}">Click here to reset your password</a>
+<a href="http://127.0.0.1:8000{%  url 'reset-password-email' uidb64=uid token=token %}">Click here to reset your password</a>
 
 
 </body>

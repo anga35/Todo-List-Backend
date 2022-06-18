@@ -5,6 +5,7 @@ from django.conf import settings
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.views import View
 import requests
 from rest_framework.views import APIView
 
@@ -20,7 +21,7 @@ from rest_framework.decorators import api_view,authentication_classes,permission
 from django.contrib.auth import get_user_model
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.template import loader
 from django.core.mail import EmailMultiAlternatives
 import jwt
 from account.custom_password_reset import CustomPasswordReset
@@ -122,16 +123,31 @@ class GetResetPasswordURLView(APIView):
         return reverse('get-reset-password-url',kwargs={'uidb64':uid,'token':token})
 
     def get(self,request,*args,**kwargs):
-        
 
         user=request.user
         password_reset=CustomPasswordReset()
         token=password_reset.make_token(user)
         uid=urlsafe_base64_encode(force_bytes(request.user.pk))
-        print(self.generate_url(uid,token))
-
+        email_template_html=loader.render_to_string('api/email_reset.html',context={'token':token,'uid':uid})
+        print(email_template_html)
+        subject="Password Reset"
+        email_from=settings.EMAIL_HOST_USER
+        recipient_list=[user.email]
+        email_message=EmailMultiAlternatives(subject,email_template_html,email_from,recipient_list)
+        email_message.attach_alternative(email_template_html,'text/html')
+        email_message.send()
         return Response(status=200)
         # subject=f'Password recovery for {request.user.email}'
+
+
+class ResetPassword(View):
+
+    def get(self,request):
+
+
+        return render(request,'api/password_reset.html')
+
+    
     
 
 

@@ -3,6 +3,24 @@ text-align: center;
 font-family: Poppins-bold;
 
 }
+
+html, body {
+
+    background-color:#eceff1;
+    
+    margin:0;
+    padding:0;
+
+    }
+
+
+#change-password{
+    align-self: center;
+}
+
+input{
+    font-family: Poppins-bold;
+}
 h3{
     font-family: Poppins-bold;
 }
@@ -11,6 +29,10 @@ a{
 font-family: Poppins-regular;
 }
 
+label{
+    font-family: Poppins-regular;
+    
+    }
 
 @font-face {
     font-family: Poppins-bold;
