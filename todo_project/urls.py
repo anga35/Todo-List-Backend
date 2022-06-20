@@ -26,7 +26,7 @@ urlpatterns = [
 
     path('task/',include('task.urls')),
     path('user/',include('account.urls')),
-    path('test/',GetResetPasswordURLView.as_view())
+
 
  
 ]+static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
