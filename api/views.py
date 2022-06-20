@@ -23,7 +23,7 @@ from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.template import loader
 from django.core.mail import EmailMultiAlternatives
-import jwt
+
 from account.custom_password_reset import CustomPasswordReset
 
 User=get_user_model()
