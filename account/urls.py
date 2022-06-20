@@ -10,8 +10,9 @@ urlpatterns = [
     path('get-token/',views.TokenGetView.as_view(),name='token-get'),
     path('get-user/',views.get_user_data,name='get-user'),
     path('reset-password-email/',views.GetResetPasswordURLView.as_view(),name='reset-password-email'),
-    #/<uidb64>/<token>/
-    path('reset-password/',views.ResetPassword.as_view(),name='reset-password',)
+
+    path('reset-password/<uidb64>/<token>/',views.ResetPassword.as_view(),name='reset-password'),
+    path('reset-complete',views.reset_complete,name='reset-complete')
 
 
 ]

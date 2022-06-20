@@ -4,6 +4,11 @@ font-family: Poppins-bold;
 
 }
 
+
+h2{
+    text-align: center;
+    font-family: Poppins-bold;
+}
 html, body {
 
     background-color:#eceff1;
@@ -33,7 +38,9 @@ label{
     font-family: Poppins-regular;
     
     }
-
+p{
+    font-family: Poppins-regular;
+}
 @font-face {
     font-family: Poppins-bold;
     src: url("/static/Poppins-Bold.ttf");

@@ -17,5 +17,5 @@ token=response.json()['token']
 # print(response.json())
 
 
-response=requests.get("http://127.0.0.1:8000/test/",headers={'Authorization':f'Token {token}'})
+response=requests.get("http://127.0.0.1:8000/user/reset-password-email/",headers={'Authorization':f'Token {token}'})
 print(response)

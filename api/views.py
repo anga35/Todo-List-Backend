@@ -3,7 +3,7 @@ from base64 import urlsafe_b64encode
 
 from django.conf import settings
 from django.http import Http404
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
 import requests
@@ -140,15 +140,46 @@ class GetResetPasswordURLView(APIView):
         # subject=f'Password recovery for {request.user.email}'
 
 
+
+
+
 class ResetPassword(View):
 
-    def get(self,request):
+    def get(self,request,*args,**kwargs):
+        uid=kwargs['uidb64']
+        token=kwargs['token']
 
+
+        pk=urlsafe_base64_decode(uid).decode()
+        user=User.objects.get(pk=pk)
+        is_token_valid=CustomPasswordReset().check_token(user,token)
+
+        print(pk)
+        print(is_token_valid)
 
         return render(request,'api/password_reset.html')
 
+    def post(self,request,*args,**kwargs):
+        uid=kwargs['uidb64']
+        uid=urlsafe_base64_decode(uid).decode()
+        data=request.POST
+        
+        password=data['password']
+        password1=data['password1']
+
+        if(password!=password1):
+            return render(request,'api/password_reset.html',{'wrong_password':True})
+
+        user=User.objects.get(pk=uid)
+        user.set_password(password)
+        user.save()
+        
+
+        return redirect(reverse('reset-complete'))
     
     
 
+def reset_complete(request):
 
+    return render(request,'api/reset_complete.html')
 
