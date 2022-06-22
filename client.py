@@ -22,5 +22,5 @@ token=response.json()['token']
 # print(response.json())
 
 
-response=requests.post("https://datobi-todolist-app.herokuapp.com/user/reset-password-email/",data={'email':'dayodele289@gmail.com'})
+response=requests.post("https://datobi-todolist-app.herokuapp.com/user/reset-password-email/",data={})
 print(response)

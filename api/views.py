@@ -123,9 +123,13 @@ class GetResetPasswordURLView(APIView):
 
     def post(self,request,*args,**kwargs):
         data=request.data
-        if(not data['email']):
+        try:
+            data['email']
+           
+        
+        except:
             raise serializers.ValidationError()
-            
+
         user=User.objects.get(email=data['email'])
 
         if not user:
