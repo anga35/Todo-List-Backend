@@ -1,5 +1,6 @@
 
 from base64 import urlsafe_b64encode
+import imp
 
 from django.conf import settings
 from django.http import Http404
@@ -8,7 +9,7 @@ from django.urls import reverse
 from django.views import View
 import requests
 from rest_framework.views import APIView
-
+from rest_framework import serializers
 from api.jwt_reset import JWTReset
 from api.serializers import CreateUserSerializer, UserSerializer
 from rest_framework.response import Response
@@ -116,15 +117,20 @@ def get_user_data(request):
 
 
 class GetResetPasswordURLView(APIView):
-    authentication_classes=[TokenAuthentication]
-    permission_classes=[IsAuthenticated]
 
     def generate_url(self,uid,token):
         return reverse('get-reset-password-url',kwargs={'uidb64':uid,'token':token})
 
-    def get(self,request,*args,**kwargs):
+    def post(self,request,*args,**kwargs):
+        data=request.data
+        if( not data.has_key('email')):
+            raise serializers.ValidationError()
 
-        user=request.user
+        user=User.objects.get(email=data['email'])
+
+        if not user:
+            raise serializers.ValidationError('User not found')
+
         password_reset=CustomPasswordReset()
         token=password_reset.make_token(user)
         uid=urlsafe_base64_encode(force_bytes(request.user.pk))
