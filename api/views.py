@@ -130,9 +130,10 @@ class GetResetPasswordURLView(APIView):
         except:
             raise serializers.ValidationError()
 
-        user=User.objects.get(email=data['email'])
+        try:
+            user=User.objects.get(email=data['email'])
 
-        if not user:
+        except:
             raise serializers.ValidationError('User not found')
 
         password_reset=CustomPasswordReset()
