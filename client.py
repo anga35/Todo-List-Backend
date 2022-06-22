@@ -7,9 +7,14 @@ import requests
 # mPath=Path(__file__).resolve()
 
 # endpoint='http://127.0.0.1:8000/user/profile-pic/'
+
+'''
 token_endpoint='http://127.0.0.1:8000/user/get-token/'
 response=requests.post(token_endpoint,data={'email':'dayodele89@gmail.com','password':'heso123yam'})
 token=response.json()['token']
+
+'''
+
 
 # pic=open('C:/Dev/Django_Projects/todo_project/temp.jpg','rb')
 # upload={'profile_pic':pic}
@@ -17,5 +22,5 @@ token=response.json()['token']
 # print(response.json())
 
 
-response=requests.get("http://127.0.0.1:8000/user/reset-password-email/",headers={'Authorization':f'Token {token}'})
+response=requests.post("https://datobi-todolist-app.herokuapp.com/user/reset-password-email/",data={'email':'dayodele89@gmail.com'})
 print(response)
