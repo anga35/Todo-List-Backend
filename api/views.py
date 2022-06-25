@@ -174,7 +174,7 @@ class ResetPassword(View):
 
         print(is_token_valid)
 
-        if(is_token_valid):
+        if(not is_token_valid):
             raise Http404
 
         return render(request,'api/password_reset.html')
