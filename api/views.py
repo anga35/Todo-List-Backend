@@ -168,6 +168,9 @@ class ResetPassword(View):
         print(pk)
         print(is_token_valid)
 
+        if(is_token_valid):
+            raise Http404
+
         return render(request,'api/password_reset.html')
 
     def post(self,request,*args,**kwargs):

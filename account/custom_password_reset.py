@@ -18,6 +18,7 @@ class CustomPasswordReset(PasswordResetTokenGenerator):
     def make_token(self, user) -> str:
         token=super().make_token(user)
         user.ot_token=token
+        user.save()
         return token
 
 
@@ -72,5 +73,6 @@ class CustomPasswordReset(PasswordResetTokenGenerator):
             user.ot_token_set_expire()
             return False
 
+        user.ot_token_set_expire()
         return True
 
