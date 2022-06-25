@@ -138,9 +138,14 @@ class GetResetPasswordURLView(APIView):
 
         password_reset=CustomPasswordReset()
         token=password_reset.make_token(user)
-        uid=urlsafe_base64_encode(force_bytes(request.user.pk))
+        pk=user.pk
+        print(pk)
+        uid=urlsafe_base64_encode(force_bytes(user.pk))
+
+
+
         email_template_html=loader.render_to_string('api/email_reset.html',context={'token':token,'uid':uid})
-        print(email_template_html)
+
         subject="Password Reset"
         email_from=settings.EMAIL_HOST_USER
         recipient_list=[user.email]
