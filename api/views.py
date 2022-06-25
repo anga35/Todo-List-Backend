@@ -162,10 +162,11 @@ class ResetPassword(View):
 
 
         pk=urlsafe_base64_decode(uid).decode()
+        print(pk)
         user=User.objects.get(pk=pk)
         is_token_valid=CustomPasswordReset().check_token(user,token)
 
-        print(pk)
+
         print(is_token_valid)
 
         if(is_token_valid):
